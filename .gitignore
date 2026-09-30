@@ -2,6 +2,9 @@
 .env
 .env.local
 *.env
+KAVACH_PRD_Antigravity.md
+*.md_PRD
+
 
 # Python
 __pycache__/
