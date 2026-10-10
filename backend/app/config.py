@@ -2,7 +2,11 @@ import os
 from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
+# Load .env from local directory or parent workspace directory
 load_dotenv()
+parent_env = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), ".env")
+if os.path.exists(parent_env):
+    load_dotenv(parent_env)
 
 class Settings(BaseSettings):
     HOST: str = os.getenv("HOST", "0.0.0.0")

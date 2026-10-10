@@ -21,25 +21,25 @@ export default function CaseList({ demoCases }) {
       {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Demo Cases</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Recorded demo cases evaluated against SFPD historical records</p>
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>My Cases</h1>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Recorded incident cases evaluated against SFPD historical records</p>
         </div>
 
         <Link to="/cases/new" className="btn-primary">
           <PlusCircle size={17} />
-          Record New Demo Case
+          Record New Case
         </Link>
       </div>
 
       {/* Filter bar */}
-      <div className="dev-panel" style={{ padding: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+      <div className="ui-card" style={{ padding: '1rem', display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
         <div style={{ flex: 1, minWidth: '220px', position: 'relative' }}>
           <Search size={17} color="var(--text-dim)" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
           <input
             type="text"
             className="form-input"
             style={{ paddingLeft: '2.5rem' }}
-            placeholder="Search demo cases by title or keyword..."
+            placeholder="Search cases by title or keyword..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
@@ -60,67 +60,62 @@ export default function CaseList({ demoCases }) {
 
       {/* Case Grid */}
       {filteredCases.length === 0 ? (
-        <div className="dev-panel" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-          <FolderOpen size={40} style={{ color: 'var(--text-dim)', marginBottom: '0.75rem' }} />
-          <h3>No demo cases found</h3>
-          <p style={{ fontSize: '0.875rem', marginTop: '0.25rem' }}>Try adjusting your search query or record a new demo case.</p>
-          <Link to="/cases/new" className="btn-primary" style={{ marginTop: '1.25rem' }}>
-            <PlusCircle size={16} /> Create Demo Case
+        <div className="ui-card" style={{ padding: '2.5rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+          <FolderOpen size={36} style={{ color: 'var(--text-dim)', marginBottom: '0.75rem' }} />
+          <h3 style={{ fontSize: '1.1rem' }}>No cases found</h3>
+          <p style={{ fontSize: '0.85rem', marginTop: '0.25rem' }}>Try adjusting your search query or record a new case.</p>
+          <Link to="/cases/new" className="btn-primary" style={{ marginTop: '1.25rem', padding: '0.55rem 1.1rem', fontSize: '0.875rem' }}>
+            <PlusCircle size={15} /> Create New Case
           </Link>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '1.25rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
           {filteredCases.map(c => (
-            <Link key={c.id} to={`/cases/${c.id}`} className="dev-card-interactive" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <Link key={c.id} to={`/cases/${c.id}`} className="ui-card-interactive" style={{ padding: '1.15rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                  <span className="badge badge-demo">DEMO USER</span>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+                  <span className="badge badge-historical" style={{ fontSize: '0.7rem' }}>CASE LOG</span>
+                  <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'var(--font-mono)' }}>
                     {c.created_at ? new Date(c.created_at).toLocaleDateString() : 'Recent'}
                   </span>
                 </div>
 
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '0.5rem', color: '#f0f6fc' }}>
+                <h3 style={{ fontSize: '0.975rem', fontWeight: 700, marginBottom: '0.4rem', color: '#f8fafc', lineHeight: 1.35 }}>
                   {c.title}
                 </h3>
 
                 <p style={{
-                  fontSize: '0.875rem',
-                  color: 'var(--text-muted)',
-                  marginBottom: '1rem',
+                  fontSize: '0.825rem',
+                  color: '#94a3b8',
+                  marginBottom: '0.85rem',
                   lineHeight: 1.5,
                   display: '-webkit-box',
-                  WebkitLineClamp: 3,
+                  WebkitLineClamp: 2,
                   WebkitBoxOrient: 'vertical',
                   overflow: 'hidden'
                 }}>
                   {c.incident_description}
                 </p>
 
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1rem' }}>
-                  <span className="badge badge-reason">
-                    <Tag size={12} /> {c.crime_category}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem', marginBottom: '0.85rem' }}>
+                  <span className="badge badge-reason" style={{ fontSize: '0.75rem' }}>
+                    <Tag size={11} /> {c.crime_category}
                   </span>
-                  {c.crime_subcategory && (
-                    <span className="badge badge-reason" style={{ background: 'rgba(56, 189, 248, 0.12)', color: '#38bdf8' }}>
-                      {c.crime_subcategory}
-                    </span>
-                  )}
                   {c.neighborhood && (
-                    <span className="badge badge-reason" style={{ background: 'rgba(16, 185, 129, 0.12)', color: '#34d399' }}>
-                      <MapPin size={12} /> {c.neighborhood}
+                    <span className="badge badge-reason" style={{ background: 'rgba(16, 185, 129, 0.12)', color: '#34d399', fontSize: '0.75rem' }}>
+                      <MapPin size={11} /> {c.neighborhood}
                     </span>
                   )}
                 </div>
               </div>
 
-              <div style={{ borderTop: '1px solid var(--bg-card-border)', paddingTop: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
-                  ID: {c.id.substring(0, 8)}...
+              <div style={{ borderTop: '1px solid #1e293b', paddingTop: '0.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.725rem', color: '#64748b', fontFamily: 'var(--font-mono)' }}>
+                  #{c.id.substring(0, 8)}
                 </span>
                 
-                <span className="btn-primary" style={{ padding: '0.4rem 0.85rem', fontSize: '0.8rem' }}>
-                  Open Lead Briefing <ArrowRight size={14} />
+                <span className="btn-primary" style={{ padding: '0.35rem 0.75rem', fontSize: '0.775rem' }}>
+                  View Dossier <ArrowRight size={13} />
                 </span>
               </div>
 

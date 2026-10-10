@@ -98,24 +98,28 @@ export default function CaseDetail() {
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       
       {/* Top Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <Link to="/cases" className="btn-secondary" style={{ padding: '0.4rem 0.75rem' }}>
-            <ArrowLeft size={16} /> Back to Cases
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+        <div>
+          <Link to="/cases" className="btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', width: 'fit-content' }}>
+            <ArrowLeft size={14} /> Back to Cases
           </Link>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span className="badge badge-demo">TARGET CASE</span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>ID: {demoCase.id}</span>
-            </div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '0.2rem' }}>{demoCase.title}</h1>
-          </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <button className="btn-secondary" onClick={() => setShowPrintModal(true)}>
-            <Printer size={16} /> Print Case Briefing
-          </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span className="badge badge-historical" style={{ fontSize: '0.7rem' }}>TARGET CASE</span>
+              <span style={{ fontSize: '0.75rem', color: '#64748b', fontFamily: 'var(--font-mono)' }}>ID: #{demoCase.id.substring(0, 8)}</span>
+            </div>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginTop: '0.2rem', color: '#f8fafc', fontFamily: 'var(--font-display)' }}>{demoCase.title}</h1>
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
+            <button className="btn-secondary" onClick={() => setShowPrintModal(false)} style={{ display: 'none' }}></button>
+            <button className="btn-primary" onClick={() => setShowPrintModal(true)} style={{ padding: '0.55rem 1.15rem', fontSize: '0.85rem' }}>
+              <Printer size={15} /> Print Case Briefing
+            </button>
+          </div>
         </div>
       </div>
 

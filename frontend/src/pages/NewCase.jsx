@@ -26,7 +26,7 @@ const DEMO_PRESETS = [
     crime_category: "Burglary",
     crime_subcategory: "Burglary - Commercial",
     neighborhood: "South of Market",
-    incident_description: "Tech startup office breached after side door lock defeated; 3 laptops and monitor monitors removed."
+    incident_description: "Tech startup office breached after side door lock defeated; 3 laptops and monitors removed."
   }
 ];
 
@@ -101,38 +101,41 @@ export default function NewCase({ onCaseCreated }) {
       if (onCaseCreated) onCaseCreated();
       navigate(`/cases/${newCase.id}`);
     } catch (err) {
-      setError(err.message || 'Failed to create demo case.');
+      setError(err.message || 'Failed to record case.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="animate-fade-in" style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+    <div className="animate-fade-in" style={{ maxWidth: '780px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
       
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <Link to="/cases" className="btn-secondary" style={{ padding: '0.4rem 0.75rem' }}>
-          <ArrowLeft size={16} /> Back to Cases
-        </Link>
+      {/* Page Header */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
         <div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 800 }}>Record New Demo Case</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Record a new incident to evaluate against historical SFPD records</p>
+          <Link to="/cases" className="btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', width: 'fit-content' }}>
+            <ArrowLeft size={14} /> Back to Cases
+          </Link>
+        </div>
+        <div>
+          <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#f8fafc', fontFamily: 'var(--font-display)' }}>Record New Case</h1>
+          <p style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Log an incident to find matching past records and generate an evidence checklist</p>
         </div>
       </div>
 
       {/* Preset Launcher Bar */}
-      <div className="dev-panel" style={{ padding: '1.25rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', color: '#a5b4fc', fontSize: '0.85rem', fontWeight: 700 }}>
-          <Sparkles size={16} /> 1-CLICK DEMO CASE PRESETS
+      <div className="ui-card" style={{ padding: '1.15rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.65rem', color: '#818cf8', fontSize: '0.8rem', fontWeight: 700, fontFamily: 'var(--font-heading)' }}>
+          <Sparkles size={15} /> FAST PRESET TEMPLATES
         </div>
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
           {DEMO_PRESETS.map((p, idx) => (
             <button
               key={idx}
               type="button"
               className="btn-secondary"
               onClick={() => applyPreset(p)}
-              style={{ fontSize: '0.825rem', padding: '0.45rem 0.85rem' }}
+              style={{ fontSize: '0.8rem', padding: '0.4rem 0.75rem' }}
             >
               + {p.label}
             </button>
@@ -140,23 +143,23 @@ export default function NewCase({ onCaseCreated }) {
         </div>
       </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="dev-panel" style={{ padding: '2rem' }}>
+      {/* Form Container Card */}
+      <form onSubmit={handleSubmit} className="ui-card" style={{ padding: '1.75rem' }}>
         
         {error && (
           <div style={{
             background: 'rgba(244, 63, 94, 0.12)',
             border: '1px solid rgba(244, 63, 94, 0.3)',
             color: '#fda4af',
-            padding: '0.85rem 1rem',
+            padding: '0.75rem 1rem',
             borderRadius: 'var(--radius-sm)',
-            marginBottom: '1.5rem',
+            marginBottom: '1.25rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.75rem',
-            fontSize: '0.875rem'
+            gap: '0.65rem',
+            fontSize: '0.85rem'
           }}>
-            <AlertCircle size={18} />
+            <AlertCircle size={16} />
             <span>{error}</span>
           </div>
         )}
@@ -182,12 +185,12 @@ export default function NewCase({ onCaseCreated }) {
             onChange={e => setFormData({ ...formData, incident_description: e.target.value })}
             required
           />
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>
-            Narrative text is vector-parsed using TF-IDF for cosine similarity matching against 10,000+ historical records.
+          <span style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.2rem', display: 'block' }}>
+            The narrative is matched against 10,000+ past police logs to extract stolen items and entry tactics.
           </span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
           
           <div className="form-group">
             <label className="form-label">Crime Category</label>
@@ -215,7 +218,7 @@ export default function NewCase({ onCaseCreated }) {
 
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
           
           <div className="form-group">
             <label className="form-label">Neighborhood / Area (Optional)</label>
@@ -243,16 +246,16 @@ export default function NewCase({ onCaseCreated }) {
 
         </div>
 
-        <div style={{ borderTop: '1px solid var(--bg-card-border)', paddingTop: '1.5rem', marginTop: '1rem', display: 'flex', justifyContent: 'flex-end', gap: '1rem' }}>
-          <Link to="/cases" className="btn-secondary">
+        <div style={{ borderTop: '1px solid #1e293b', paddingTop: '1.25rem', marginTop: '1.25rem', display: 'flex', justifyContent: 'flex-end', gap: '0.75rem' }}>
+          <Link to="/cases" className="btn-secondary" style={{ padding: '0.6rem 1.1rem', fontSize: '0.875rem' }}>
             Cancel
           </Link>
-          <button type="submit" className="btn-primary" disabled={loading}>
+          <button type="submit" className="btn-primary" disabled={loading} style={{ padding: '0.6rem 1.25rem', fontSize: '0.875rem' }}>
             {loading ? (
               <span>Saving & Analyzing...</span>
             ) : (
               <>
-                <PlusCircle size={17} /> Save & Open Lead Briefing
+                <PlusCircle size={16} /> Save &amp; Open Lead Briefing
               </>
             )}
           </button>

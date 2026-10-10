@@ -1,12 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import LandingHeader from './components/LandingHeader';
+import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import CaseList from './pages/CaseList';
 import NewCase from './pages/NewCase';
 import CaseDetail from './pages/CaseDetail';
 import HistoricalExplorer from './pages/HistoricalExplorer';
 import { fetchHealth, fetchDemoCases } from './services/api';
+
+function HeaderSelector() {
+  const location = useLocation();
+  if (location.pathname === '/') {
+    return <LandingHeader />;
+  }
+  return <Navbar />;
+}
+
+function FooterSelector() {
+  const location = useLocation();
+  if (location.pathname !== '/') return null;
+  return (
+    <footer style={{
+      borderTop: '1px solid var(--border-color)',
+      padding: '1.5rem',
+      textAlign: 'center',
+      fontSize: '0.8rem',
+      color: 'var(--text-dim)',
+      background: '#1e293b'
+    }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+        <div>
+          <strong>KAVACH</strong> — Incident Similarity & Investigation Support System
+        </div>
+        <div>
+          <a
+            href="https://github.com/subxm/MINI-PROJ"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#38bdf8', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.35rem', fontWeight: 500 }}
+          >
+            GitHub Repository
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
 
 export default function App() {
   const [healthInfo, setHealthInfo] = useState(null);
@@ -37,8 +78,8 @@ export default function App() {
     <BrowserRouter>
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         
-        {/* Top Navbar */}
-        <Navbar />
+        {/* Dynamic Header: LandingHeader for / and Navbar for Workstation pages */}
+        <HeaderSelector />
 
         {/* Multi-Page Route Outlet */}
         <main style={{ flex: 1, maxWidth: '1200px', width: '100%', margin: '0 auto', padding: '2rem 1.5rem' }}>
@@ -46,6 +87,11 @@ export default function App() {
           <Routes>
             <Route
               path="/"
+              element={<LandingPage healthInfo={healthInfo} />}
+            />
+
+            <Route
+              path="/dashboard"
               element={<Dashboard healthInfo={healthInfo} demoCases={demoCases} />}
             />
             
@@ -72,24 +118,8 @@ export default function App() {
 
         </main>
 
-        {/* Footer */}
-        <footer style={{
-          borderTop: '1px solid var(--bg-card-border)',
-          padding: '1.5rem',
-          textAlign: 'center',
-          fontSize: '0.8rem',
-          color: 'var(--text-dim)',
-          background: '#161b22'
-        }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <div>
-              <strong>KAVACH</strong> — AI Incident Similarity & Actionable Lead Workstation
-            </div>
-            <div>
-              Public SFPD Incident Dataset Demonstration
-            </div>
-          </div>
-        </footer>
+        {/* Footer rendered strictly on Landing Page (/) */}
+        <FooterSelector />
 
       </div>
     </BrowserRouter>
