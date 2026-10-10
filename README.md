@@ -51,7 +51,6 @@ MINI PROJ/
 │   │   ├── App.jsx                # Multi-page BrowserRouter routes
 │   │   └── index.css              # Dark slate design system and animations
 │   └── package.json
-├── screenshots/                   # Documentation figures (Figures 8.1 - 8.8)
 └── README.md
 ```
 
